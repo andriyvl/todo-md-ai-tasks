@@ -1,9 +1,9 @@
 ---
-name: vault-tasks
-description: Set up an automation that hands markdown to-do tasks to an AI coding agent. The user writes a task in a project's markdown file (an Obsidian vault or any folder of .md notes), marks it in progress with `- [/]`, and a small watcher starts or continues an agent session in that project's repo; the agent's progress comes back to the task as a flag (🤖 working, ⚠️ needs input, 👀 ready for review, 🛑 failed) and a short note. Works with Claude Code, Codex, Gemini CLI, opencode and other agents that run from a command line, and with IDE-only agents through an inbox file. Use when the user wants one to-do list for themselves and their AI agent, wants to delegate tasks from their notes or phone, or asks to set up, change or debug "vault tasks".
+name: todo-md-ai-tasks
+description: Set up an automation that hands markdown to-do tasks to an AI coding agent. The user writes a task in a project's markdown file (an Obsidian vault or any folder of .md notes), marks it in progress with `- [/]`, and a small watcher starts or continues an agent session in that project's repo; the agent's progress comes back to the task as a flag (🤖 working, ⚠️ needs input, 👀 ready for review, 🛑 failed) and a short note. Works with Claude Code, Codex, Gemini CLI, opencode and other agents that run from a command line, and with IDE-only agents through an inbox file. Use when the user wants one to-do list for themselves and their AI agent, wants to delegate tasks from their notes or phone, or asks to set up, change or debug "TODO.md AI tasks".
 ---
 
-# Vault tasks: one to-do list for you and your AI agent
+# TODO.md AI Tasks: one to-do list for you and your AI agent
 
 You are setting up a small watcher on the user's computer. When they're done, this is how they work:
 
@@ -53,7 +53,7 @@ Write one small, self-contained program. Python 3 standard library is a good def
 Each tick, per enabled project:
 
 1. **Read** the task file. Skip the project for this tick if the file is missing or not yet downloaded by the sync client.
-2. **Apply the agent's reports** from `<repo>/.vault-tasks/reports.jsonl` (see "How the agent reports back" below). Keep a byte offset in state and apply only complete new lines past it; a last line that doesn't parse yet is still being written. Empty the file and reset the offset only when no session for that repo is running.
+2. **Apply the agent's reports** from `<repo>/.ai-tasks/reports.jsonl` (see "How the agent reports back" below). Keep a byte offset in state and apply only complete new lines past it; a last line that doesn't parse yet is still being written. Empty the file and reset the offset only when no session for that repo is running.
 3. **Find new tasks.** Track each by a key (`references/task-format.md`). A new task starts only after its title and notes have stayed unchanged for the settle time.
 4. **Dispatch.** If the project has no open session, start one with every settled new task. If a session is open and idle, send the new tasks into it as the next turn. If it is running, keep them queued for when it ends. Write the session line and 🤖 under each task as soon as it is handed over.
 5. **Sync flags.** A task's flag is whatever the agent last reported for it. A task in the current turn that the agent hasn't reported on follows the session: 🤖 while it runs; 👀 if the run ended normally; 🛑 if it crashed or was stopped, with the note "session ended (exit code N), log: <path>" placed like any agent note. Tasks from earlier turns keep their flag.
@@ -74,13 +74,13 @@ Read `references/harnesses.md` for the exact commands per harness. In every case
 
 - Run in the project's repo (or its worktree), in the background, so the tick returns at once. Store the process id, the session id, the turn's task keys and the log path in state.
 - Use the permission level the user chose. Never use a "skip all permissions" mode unless they asked for it by name, and then only inside a worktree or sandbox.
-- Copy the task's attached images into `<repo>/.vault-tasks/attachments/` and give the agent those paths, so it can read them without access outside the repo.
-- Add `.vault-tasks/` to the repo's exclude file, so none of this shows up in git. `git rev-parse --git-path info/exclude` gives its path, in a worktree too.
+- Copy the task's attached images into `<repo>/.ai-tasks/attachments/` and give the agent those paths, so it can read them without access outside the repo.
+- Add `.ai-tasks/` to the repo's exclude file, so none of this shows up in git. `git rev-parse --git-path info/exclude` gives its path, in a worktree too.
 - Send the message from `references/prompt.md`. Every message, including later turns of the same session, carries the "How to report" block with that turn's task keys.
 
 ### How the agent reports back
 
-The agent reports by appending one JSON line per update to `<repo>/.vault-tasks/reports.jsonl`:
+The agent reports by appending one JSON line per update to `<repo>/.ai-tasks/reports.jsonl`:
 
 ```json
 {"task": "my-app:3f6c2a1e8d", "state": "review", "note": "Done. Check the login screen on a small phone."}

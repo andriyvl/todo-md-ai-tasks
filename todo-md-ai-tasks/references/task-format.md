@@ -50,7 +50,7 @@ For the settle check, hash the title and the user's note lines together, so a ta
 - **Flag:** replace the flag at the start of the text, keep the rest of the line byte for byte.
 - **Session line:** at handover, one line at the end of the task's notes, indented like its first note line (or one level deeper than the task when it has none): `🤖 session: <harness> <session-id>`. For a harness with a web or app link, a markdown link is nicer: `[🤖 session](https://...)`.
 - **Agent note:** while the session line is still the last non-blank line of the task's notes, the first note goes on it after a colon. Otherwise the note gets its own new line at the end of the notes: `🤖: <note>`. That way the user's answers and the agent's notes read in order, like a conversation. Don't write the same note twice.
-- **Images:** resolve `![[name.png]]` against the vault's attachment folder (Obsidian keeps it in `.obsidian/app.json` as `attachmentFolderPath`; `./` means next to the note) and `![](relative/path.png)` against the note's folder. Copy them into the repo's `.vault-tasks/attachments/` for the agent.
+- **Images:** resolve `![[name.png]]` against the vault's attachment folder (Obsidian keeps it in `.obsidian/app.json` as `attachmentFolderPath`; `./` means next to the note) and `![](relative/path.png)` against the note's folder. Copy them into the repo's `.ai-tasks/attachments/` for the agent.
 - **Cloud files:** a file that isn't downloaded yet (on iCloud Drive a `.<name>.icloud` placeholder next to it, or a size of 0) is skipped for this tick. On macOS, `brctl download <path>` asks iCloud to fetch it.
 
 ## Safe editing

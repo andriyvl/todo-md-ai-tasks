@@ -10,7 +10,7 @@ Decide how to work through them: together, one by one, or with subagents if you 
 
 ### 1. {title}   (key: {project}:{key}) {"(important)" if the task has 🚩}
 {the task's notes, as written}
-Attached images: {paths under .vault-tasks/attachments/, if any}
+Attached images: {paths under .ai-tasks/attachments/, if any}
 
 ### 2. ...
 
@@ -31,7 +31,7 @@ Every message carries the "How to report" block, with the keys of the tasks in t
 ## How to report
 
 When you finish a task, give up on it, or need my answer, append one line per task to
-.vault-tasks/reports.jsonl in this repository (create the file if it's missing):
+.ai-tasks/reports.jsonl in this repository (create the file if it's missing):
 
 {"task": "{project}:{key}", "state": "review", "note": "..."}
 

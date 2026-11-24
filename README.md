@@ -1,6 +1,6 @@
-# Vault tasks
+# TODO.md AI Tasks
 
-One to-do list for you and your AI agent.
+One to-do list for you and your AI agent. It works on plain markdown tasks, the same ones the [TODO.md app](https://todo-md.devviy.com) shows on iPhone and Mac, so you can use that app or any markdown editor.
 
 Write a task in your notes, mark it in progress, and a couple of minutes later an AI coding agent starts on it in the right project. The task itself shows you where it is:
 
@@ -30,11 +30,11 @@ This is not an app you install. It's a skill: instructions your own AI agent rea
 ## Install the skill
 
 ```bash
-git clone https://github.com/andriyvl/vault-tasks.git
-cp -r vault-tasks/vault-tasks ~/.claude/skills/    # or your agent's folder from the table
+git clone https://github.com/andriyvl/todo-md-ai-tasks.git
+cp -r todo-md-ai-tasks/todo-md-ai-tasks ~/.claude/skills/    # or your agent's folder from the table
 ```
 
-Copy the inner `vault-tasks` folder into your agent's skills folder:
+Copy the inner `todo-md-ai-tasks` folder into your agent's skills folder:
 
 | Agent | Folder |
 |---|---|
@@ -44,9 +44,9 @@ Copy the inner `vault-tasks` folder into your agent's skills folder:
 | opencode | `~/.config/opencode/skills/` |
 | Others | `~/.agents/skills/`, or the folder your agent's docs name |
 
-Then ask your agent: **"Set up vault tasks for me."**
+Then ask your agent: **"Set up TODO.md AI tasks for me."**
 
-If your agent doesn't load skills, point it at the file instead: "Read `vault-tasks/SKILL.md` and follow it."
+If your agent doesn't load skills, point it at the file instead: "Read `todo-md-ai-tasks/SKILL.md` and follow it."
 
 The agent asks a few questions (where your notes are, which file goes with which repo, which agent runs the work, how much it may do without asking), says what it will build, and waits for your yes. Then it writes a small watcher, schedules it every minute, and tests it with you on a throwaway task.
 

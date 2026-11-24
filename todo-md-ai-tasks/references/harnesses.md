@@ -25,7 +25,7 @@ claude -p --resume "$UUID" --permission-mode acceptEdits --output-format json "$
 ```
 
 - Run with the repo as the working directory.
-- `--permission-mode acceptEdits` lets it edit files in the repo, which is all it needs to report back (`.vault-tasks/reports.jsonl`). Shell commands it isn't allowed to run are refused rather than asked about, so allow the project's own commands with `--allowedTools` (for example `"Bash(npm test:*)" "Bash(git diff:*)"`) instead of jumping to `bypassPermissions`.
+- `--permission-mode acceptEdits` lets it edit files in the repo, which is all it needs to report back (`.ai-tasks/reports.jsonl`). Shell commands it isn't allowed to run are refused rather than asked about, so allow the project's own commands with `--allowedTools` (for example `"Bash(npm test:*)" "Bash(git diff:*)"`) instead of jumping to `bypassPermissions`.
 - Tested: start with `--session-id`, then `--resume` with the same id, continues the same conversation and returns the same `session_id` in the JSON.
 - The user can open the same session interactively with `claude --resume <id>`. The Claude Code desktop app reads skills from the same `~/.claude/skills/` folder, so the user can run this setup from there too; the watcher still starts the agent through the `claude` CLI.
 
@@ -78,9 +78,9 @@ Some desktop apps that run agents (multi-agent managers, agent "inboxes") have t
 When the harness only runs inside an editor (Antigravity, Cursor, VS Code agent modes and similar) and has no command line to start it:
 
 - The watcher writes the batch to `<repo>/.agent-inbox.md` (the same message as `prompt.md`) and sets each task to 🤖 with the session line `🤖 session: inbox <date>`.
-- It notifies the user (macOS `osascript -e 'display notification "…" with title "Vault tasks"'`, `notify-send` on Linux, or a push service they already use).
+- It notifies the user (macOS `osascript -e 'display notification "…" with title "TODO.md AI Tasks"'`, `notify-send` on Linux, or a push service they already use).
 - The repo's agent rules file (for example `AGENTS.md`, or the harness's own rules or workflows) gets one line: "When `.agent-inbox.md` exists, work through it first, then delete it."
-- The agent reports through `.vault-tasks/reports.jsonl` exactly like a CLI agent, so the flags come back the same way. Without a running process, the watcher can't see "running" or "crashed": tasks stay 🤖 until the agent reports on them.
+- The agent reports through `.ai-tasks/reports.jsonl` exactly like a CLI agent, so the flags come back the same way. Without a running process, the watcher can't see "running" or "crashed": tasks stay 🤖 until the agent reports on them.
 
 First check whether the IDE ships a command-line launcher that can start an agent chat with a prompt; if it can, treat it like a command-line agent instead.
 
